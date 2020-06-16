@@ -16,10 +16,11 @@ class Test(QWidget):
 
 
 
-        your_mesh = mesh.Mesh.from_file(stl)
-        ax.add_collection3d(mplot3d.art3d.Poly3DCollection(your_mesh.vectors))
+        self.__your_mesh = mesh.Mesh.from_file(stl)
 
-        scale = your_mesh.points.flatten("C")
+        ax.add_collection3d(mplot3d.art3d.Poly3DCollection(self.__your_mesh.vectors))
+
+        scale = self.__your_mesh.points.flatten("C")
 
         ax.auto_scale_xyz(scale, scale, scale)
 
@@ -48,8 +49,8 @@ class Test(QWidget):
         self.layout.addWidget(self.canvas,1,1,1,2)
 
         self.button1.clicked.connect(self.buttonClicked1)
-        self.button2.clicked.connect(self.buttonClicked2)
-        self.button3.clicked.connect(self.buttonClicked3)
+        #self.button2.clicked.connect(self.buttonClicked2)
+        #self.button3.clicked.connect(self.buttonClicked3)
 
 
 
@@ -61,6 +62,17 @@ class Test(QWidget):
         self.setLayout(self.layout)
 
     def buttonClicked1(self):
+        self.fig = plt.figure()
+        self.canvas = FigureCanvas(self.fig)
+        ax = plt.axes(projection='3d')
+        self.__your_mesh.translate([0,0,500])
+        ax.add_collection3d(mplot3d.art3d.Poly3DCollection(self.__your_mesh.vectors))
+        scale = self.__your_mesh.points.flatten("C")
+
+        ax.auto_scale_xyz(scale, scale, scale)
+
+
+
 
 
 
@@ -74,6 +86,6 @@ class Test(QWidget):
 
 if __name__ == "__main__":
     app = QApplication([])
-    win =Test()
+    win =Test("V_HULL.stl")
     win.show()
     app.exec_()
