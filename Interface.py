@@ -5,9 +5,10 @@ from PySide2.QtWidgets import *
 from stl import mesh
 from mpl_toolkits import mplot3d
 from matplotlib import pyplot
+from parametres import *
 
 class Test(QWidget):
-    def __init__(self):
+    def __init__(self,stl):
         QWidget.__init__(self)
         self.fig = plt.figure()
         self.canvas = FigureCanvas(self.fig)
@@ -15,7 +16,7 @@ class Test(QWidget):
 
 
 
-        your_mesh = mesh.Mesh.from_file('V_HULL.stl')
+        your_mesh = mesh.Mesh.from_file(stl)
         ax.add_collection3d(mplot3d.art3d.Poly3DCollection(your_mesh.vectors))
 
         scale = your_mesh.points.flatten("C")
@@ -46,12 +47,22 @@ class Test(QWidget):
         self.layout.addWidget(self.button3,0,3,1,1)
         self.layout.addWidget(self.canvas,1,1,1,2)
 
+        self.button1.clicked.connect(self.buttonClicked1)
+        self.button2.clicked.connect(self.buttonClicked2)
+        self.button3.clicked.connect(self.buttonClicked3)
+
+
+
 
 
 
 
 
         self.setLayout(self.layout)
+
+    def buttonClicked1(self):
+
+
 
 
 
