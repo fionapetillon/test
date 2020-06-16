@@ -16,8 +16,8 @@ your_mesh = mesh.Mesh.from_file('V_HULL.stl')
 axes.add_collection3d(mplot3d.art3d.Poly3DCollection(your_mesh.vectors))
 # Auto scale to the mesh size
 scale = your_mesh.points.flatten("C")
-#for i in your_mesh.vectors:
-    #print(i)
+for i in your_mesh.vectors:
+    print(i)
 axes.auto_scale_xyz(scale, scale, scale)
 # Show the plot to the screen
 pyplot.show()

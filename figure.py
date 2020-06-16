@@ -2,6 +2,9 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import numpy as np
 from PySide2.QtWidgets import *
+from stl import mesh
+from mpl_toolkits import mplot3d
+from matplotlib import pyplot
 
 class Test(QWidget):
     def __init__(self):
@@ -9,16 +12,54 @@ class Test(QWidget):
         self.fig = plt.figure()
         self.canvas = FigureCanvas(self.fig)
         ax = plt.axes(projection='3d')
-        #dessin 3d
-        zline = np.linspace(0, 15, 1000)
-        xline = np.sin(zline)
-        yline = np.cos(zline)
-        ax.plot(xline, yline, zline, 'red')
-        #rafraichissement
+
+
+
+        your_mesh = mesh.Mesh.from_file('V_HULL.stl')
+        ax.add_collection3d(mplot3d.art3d.Poly3DCollection(your_mesh.vectors))
+
+        scale = your_mesh.points.flatten("C")
+
+        ax.auto_scale_xyz(scale, scale, scale)
+
+
+
+
+
+
         self.canvas.draw()
-        layout = QVBoxLayout()
-        layout.addWidget(self.canvas)
-        self.setLayout(layout)
+        self.layout = QGridLayout()
+        self.setWindowTitle("Boat sinking interface")
+        self.setFixedSize(800, 600)
+
+
+        self.button1 = QPushButton("Load 3D model")
+        self.button2 = QPushButton("Load Image")
+        self.button3 = QPushButton("Compute")
+
+
+
+
+
+        self.layout.addWidget(self.button1,0,1,1,1)
+        self.layout.addWidget(self.button2,0,2,1,1)
+        self.layout.addWidget(self.button3,0,3,1,1)
+        self.layout.addWidget(self.canvas,1,1,1,2)
+
+
+
+
+
+
+        self.setLayout(self.layout)
+
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
     app = QApplication([])
